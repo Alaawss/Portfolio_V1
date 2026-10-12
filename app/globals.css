@@ -1,39 +1,154 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-primary: #5a0029;
-  --color-primary-dark: #3d001c;
-  --color-background: #f0ebe2;
-  --color-stripe: #c8c2b7;
-  --color-neutral: #574D4B;
-  --color-pink-star: #F5B0C0;
-  --color-cyan-placeholder: #a8dce6;
-  
+  /* ── Site palette ── the site's colors come from these 3 lines */
+  --color-primary: #5a0029;    /* Burgundy: text, headings, cards, accents */
+  --color-background: #f0ebe2; /* Cream: page background */
+  --color-neutral: #574D4B;    /* Warm grey: secondary text */
+
   --font-display: var(--font-special-gothic);
   --font-heading: var(--font-cormorant);
   --font-body: var(--font-elms);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-html {
-  scroll-behavior: smooth;
+/* No scroll-behavior: smooth here: Lenis does the smoothing (components/SmoothScroll.tsx), and when it's off
+   (reduced motion) jumps should be instant anyway.
+   Without Lenis, a jump to a section (/#about) stops below the fixed header: --header-h is its measured height
+   (components/SiteHeader.tsx). Not while Lenis runs (html.lenis): Lenis adds this padding to its own offset,
+   so the gap would be counted twice */
+html:not(.lenis) {
+  scroll-padding-top: var(--header-h, 0px);
 }
 
 body {
   color: var(--color-primary);
   font-family: var(--font-body), sans-serif;
   overflow-x: hidden;
-  background-image: repeating-linear-gradient(
-    90deg,
-    #f0ebe2 0px,
-    #f0ebe2 64px,
-    #c8c2b7 64px,
-    #c8c2b7 128px
-  );
+  background-color: var(--color-background);
 }
 
 ::selection {
   background-color: var(--color-primary);
   color: var(--color-background);
+}
+
+/* Hero "Scroll for the good stuff" hint: each letter dips 0.25em and comes back in the first 12% of the loop,
+   then rests. Every letter runs it a little after the one before, so the dip travels along the line
+   (animate-[wave_...] + an animation-delay per letter, in components/sections/Hero.tsx) */
+@keyframes wave {
+  0%, 12%, 100% { translate: 0 0; }
+  6% { translate: 0 0.25em; }
+}
+
+/* Page change (components/TransitionLink.tsx), as on itsjay.us: the browser shows a picture of the old page and
+   one of the new page while it changes. These rules put the new one on top and switch off the browser's default
+   crossfade, so only TransitionLink's own animations (old page shrinks away, new page slides up) play */
+::view-transition-group(root) { z-index: auto !important; }
+::view-transition-image-pair(root) { isolation: isolate; will-change: transform, opacity, scale; z-index: 1; }
+::view-transition-new(root) { z-index: 50; animation: none !important; }
+::view-transition-old(root) { z-index: 1; animation: none !important; }
+
+/* ── Contact form colours (components/contact/) ──
+   Every colour the contact experience uses, as named tokens. They live on .contact-theme (the footer takeover card,
+   the sheet and its overlay) rather than on :root, because a few names (--card, --ink) would clash with the
+   UI-kit tokens below. maroon and cream are the site palette's own values (--color-primary/--color-background), so
+   the card that grows out of the maroon "Get in touch" pill is exactly the pill's colour. (The brief listed
+   #6B0132 / #EFEAE3: swap them here if you want those instead.) */
+.contact-theme {
+  --maroon: var(--color-primary);
+  --maroon-deep: #4f0125;
+  --cream: var(--color-background);
+  --paper: #FFF3E6;
+  --ink: var(--color-neutral);
+  --lime: #C6FF34;
+  --card: #DED7D0;
+  --scrim: rgba(40, 0, 18, 0.38);
+  /* Text on maroon: paper at four strengths */
+  --paper-full: var(--paper); /* typed values */
+  --paper-soft: color-mix(in srgb, var(--paper) 70%, transparent); /* the sentence's static words */
+  --paper-line: color-mix(in srgb, var(--paper) 50%, transparent); /* empty blanks' underlines */
+  --paper-faint: color-mix(in srgb, var(--paper) 35%, transparent); /* placeholders */
+  --paper-focus: color-mix(in srgb, var(--paper) 10%, transparent); /* the blank you're typing in */
+}
+
+/* The sheet's own scrollbar (when its content is taller than the screen): a faint paper thumb on nothing, instead
+   of the page's cream track, which showed as a cream strip on the maroon card */
+.contact-scroll {
+  scrollbar-color: var(--paper-line) transparent;
+}
+.contact-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.contact-scroll::-webkit-scrollbar-thumb {
+  background: var(--paper-line);
+}
+
+/* The footer contact card's quote spotlight (components/contact/QuoteBand.tsx). Registering --spot-r as a length
+   lets the browser animate it (a plain custom property would just jump), so the lit circle grows and shrinks */
+@property --spot-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+.spotlight {
+  transition: --spot-r 0.3s ease-out;
+}
+
+/* While the contact sheet is open the page can't scroll. A class (not an inline style) so the menu, which saves
+   and restores html's inline overflow when it closes, can't undo it. scrollbar-gutter: stable keeps the hidden
+   page scrollbar's space, so nothing (the header, the pill the sheet grows from) shifts sideways.
+   The second selector outranks Lenis's paused state (.lenis.lenis-stopped in lenis.css), whose overflow: clip
+   would otherwise win and drop the scrollbar gutter */
+html.contact-open,
+html.lenis.lenis-stopped.contact-open {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* Navbar "Open to work" dot: a ring that keeps pulsing out of it (animate-[ping-ring_2s_infinite]) */
+@keyframes ping-ring {
+  0% { transform: scale(0.4); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
 
 /* Scrollbar styling */
@@ -51,5 +166,110 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a0123;
+  background: color-mix(in srgb, var(--color-primary), black 20%);
+}
+
+/* Footer bento grid: 2 columns on phones, the Figma 3-column layout from md (768px) up */
+.footer-bento {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, minmax(140px, auto));
+  grid-template-areas:
+    "work lab"
+    "contact github"
+    "instagram linkedin";
+}
+
+@media (min-width: 48rem) {
+  .footer-bento {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, minmax(180px, 1fr));
+    grid-template-areas:
+      "work work lab"
+      "work work lab"
+      "contact instagram linkedin"
+      "github instagram linkedin";
+  }
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }

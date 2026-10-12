@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The beginner course: its practice files have mistakes on purpose, and its playground is a separate app
+    "course/**",
   ]),
 ]);
 

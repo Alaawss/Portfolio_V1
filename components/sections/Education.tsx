@@ -16,7 +16,7 @@ export default function Education() {
         </h2>
       </ScrollReveal>
 
-      <div className="relative pl-2 border-l border-primary/20 flex flex-col gap-2 mt-2">
+      <div className="relative flex flex-col gap-2 mt-2">
         {educationData.map((item, i) => (
         <TimelineEntry key={i} {...item} index={i} isLast={i === educationData.length - 1} />
       ))}

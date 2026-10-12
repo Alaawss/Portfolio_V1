@@ -1,34 +1,23 @@
-﻿'use client';
-
-import { useState } from 'react';
-import Preloader from '@/components/Preloader';
-import CurtainReveal from '@/components/CurtainReveal';
-import Navbar from '@/components/Navbar';
+import PageShell from '@/components/PageShell';
 import Hero from '@/components/sections/Hero';
+import HeroReel from '@/components/sections/HeroReel';
 import About from '@/components/sections/About';
 import ResumeSection from '@/components/sections/ResumeSection';
 import TechStack from '@/components/sections/TechStack';
+import Projects from '@/components/sections/Projects';
 
+// The home page: the sections inside the frame every page shares (smooth scroll, header, footer).
+// The loader that opens the site lives in app/layout.tsx
 export default function Home() {
-  const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
-
   return (
-    <>
-      {/* Preloader & Curtain Wipe */}
-      <Preloader onComplete={() => setIsPreloaderComplete(true)} />
-      <CurtainReveal isRevealed={isPreloaderComplete} />
-
-      {/* Main Single Page Content */}
-      <div className="min-h-screen flex flex-col bg-background selection:bg-primary selection:text-background">
-        <Navbar />
-
-        <main className="flex-grow">
-          <Hero />
-          <About />
-          <ResumeSection />
-          <TechStack />
-        </main>
-      </div>
-    </>
+    <PageShell>
+      <Hero />
+      {/* The showreel: small and pulled up over the hero, it grows into place here as you scroll (from 768px) */}
+      <HeroReel />
+      <About image="/about.jpeg" />
+      <ResumeSection resumeImage="/experience.jpeg" />
+      <TechStack />
+      <Projects />
+    </PageShell>
   );
 }
