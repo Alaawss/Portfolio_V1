@@ -37,6 +37,9 @@ const elms = Elms_Sans({
 export const metadata: Metadata = {
   title: 'Alaa ESSAHIH | Developer Portfolio',
   description: 'Personal developer portfolio of Alaa ESSAHIH — Software Developer',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
