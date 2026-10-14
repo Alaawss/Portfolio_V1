@@ -257,6 +257,9 @@ export const projectsData: Project[] = [
     ],
     summary:
       'Artifecta is the website for a studio working across AI, design and engineering. I shaped its visual identity and designed and built the site: a React front end animated with Framer Motion, with a contact form that emails every message through Resend.',
+      liveUrl: 'https://artifecta.vercel.app/',
+    // The repo's name ends in a dot ("Lancr."). Renaming it to "Lancr" on GitHub keeps this link working (it redirects)
+      githubUrl: 'https://github.com/Alaawss/Artifecta',
     card: cardMedia('artifecta'),
     brand: {
       fonts: [
