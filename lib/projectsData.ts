@@ -129,7 +129,7 @@ export const projectsData: Project[] = [
       pageVideo('hibah', '02', 'Donating to a Hibah campaign, from the campaign page to the confirmation'),
       { type: 'brandType' },
       { type: 'brandLogo' },
-      pageVideo('hibah', '05', 'Switching Hibah from English to Arabic: the whole page mirrors right to left', '/projects/hibah/page-05-poster.png'),
+      pageVideo('hibah', '05', 'Switching Hibah from English to Arabic: the whole page mirrors right to left'),
     ],
   },
   {
