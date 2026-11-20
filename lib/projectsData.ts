@@ -67,11 +67,16 @@ const cardMedia = (slug: string): ProjectCardMedia => ({
 });
 
 // A page video saved as page-NN.mp4 / .webm / -poster.jpg
-const pageVideo = (slug: string, n: string, alt: string): ProjectSlot => ({
+const pageVideo = (
+  slug: string,
+  n: string,
+  alt: string,
+  poster = `/projects/${slug}/page-${n}-poster.jpg`,
+): ProjectSlot => ({
   type: 'video',
   src: `/projects/${slug}/page-${n}.mp4`,
   webm: `/projects/${slug}/page-${n}.webm`,
-  poster: `/projects/${slug}/page-${n}-poster.jpg`,
+  poster,
   alt,
 });
 
@@ -124,7 +129,7 @@ export const projectsData: Project[] = [
       pageVideo('hibah', '02', 'Donating to a Hibah campaign, from the campaign page to the confirmation'),
       { type: 'brandType' },
       { type: 'brandLogo' },
-      pageVideo('hibah', '05', 'Switching Hibah from English to Arabic: the whole page mirrors right to left'),
+      pageVideo('hibah', '05', 'Switching Hibah from English to Arabic: the whole page mirrors right to left', '/projects/hibah/page-05-poster.png'),
     ],
   },
   {
