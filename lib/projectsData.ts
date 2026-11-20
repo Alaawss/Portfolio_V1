@@ -205,7 +205,7 @@ export const projectsData: Project[] = [
       cardVideoSlot('lancr', 'Lancr: landing page and dashboard tour'),
       { type: 'brandType' },
       { type: 'brandLogo' },
-      { type: 'image', src: '/projects/lancr/page-05.webp', alt: 'Lancr subscription page: the Free plan and the $19 Pro plan, billed through Paddle', todo: 'from the 1080p dashboard recording (1280×800): a 1920×1200 export would be sharper on retina screens' },
+      //{ type: 'image', src: '/projects/lancr/page-05.webp', alt: 'Lancr subscription page: the Free plan and the $19 Pro plan, billed through Paddle', todo: 'from the 1080p dashboard recording (1280×800): a 1920×1200 export would be sharper on retina screens' },//
     ],
   },
   {
@@ -283,7 +283,7 @@ export const projectsData: Project[] = [
       cardVideoSlot('artifecta', 'Artifecta: the homepage, services and contact pages'),
       { type: 'brandType' },
       { type: 'brandLogo' },
-      { type: 'image', src: '/projects/artifecta/page-05.webp', alt: 'Artifecta services along a winding path: UI/UX design, web design, web development, AI integration and digital product development', todo: 'from the 1080p services recording (1728×1080): a 1920×1200 export would be sharper on retina screens' },
+      pageVideo( 'artifecta', '05', 'Artifecta services along a winding path: UI/UX design, web design, web development, AI integration and digital product development'),
     ],
   },
 ];

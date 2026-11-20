@@ -15,7 +15,7 @@ export default function Home() {
       {/* The showreel: small and pulled up over the hero, it grows into place here as you scroll (from 768px) */}
       <HeroReel />
       <About image="/about.jpeg" />
-      <ResumeSection resumeImage="/experience.jpeg" />
+      <ResumeSection resumeImage="/experience1.jpeg" />
       <TechStack />
       <Projects />
     </PageShell>
